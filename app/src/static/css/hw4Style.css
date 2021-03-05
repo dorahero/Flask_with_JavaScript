@@ -1,0 +1,77 @@
+#idImg {
+    width: 500px;
+    box-shadow: 2px 2px 5px rgb(109, 109, 109);
+}
+
+.a1 {
+    display: block;
+    text-align: center;
+}
+
+.fieldsetHw4 {
+    width: 520px;
+    margin: auto;
+    padding: 20px 0px;
+    border: 4px solid red;
+    border-radius: 10px;
+    padding: 5px 0px 15px 0px;
+    box-shadow: 1px 1px 10px gray;
+    background-color: rgb(252, 253, 232);
+}
+
+.legendHw4 {
+    text-align: center;
+    font-family: fantasy;
+    letter-spacing: 0.6px;
+}
+
+.numbers {
+    text-align: center;
+}
+
+.num {
+    opacity: 0.4;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: fantasy;
+    margin: 0px 20px;
+    text-shadow: 0.9px 0.9px 0 black;
+}
+
+.num:hover {
+    opacity: 1;
+
+}
+
+.ch {
+    cursor: pointer;
+    opacity: 0.4;
+    height: 20px;
+    margin: 0px 55px;
+    margin-top: 5px;
+}
+
+.ch:hover {
+    opacity: 0.8;
+}
+
+.play {
+    cursor: pointer;
+    opacity: 0.4;
+    height: 20px;
+}
+
+.play:hover {
+    opacity: 0.8;
+}
+
+.red {
+    opacity: 1;
+    font-size: 25px;
+    color: red;
+    text-shadow: 1.3px 0.8px 1px black;
+}
+
+.black {
+    color: black;
+}

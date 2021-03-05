@@ -1,0 +1,69 @@
+.div1Hw5 {
+    width: 500px;
+    height: 282px;
+    margin: auto;
+    /* margin-top: 30px; */
+    padding: 10px;
+    border: 4px solid red;
+    border-radius: 10px;
+    /* background-color: rgb(225, 255, 208); */
+    box-shadow: 1px 1px 10px gray;
+    background-color: rgb(252, 253, 232);
+}
+
+.div2Hw5 {
+    width: 210px;
+    margin: 0px auto;
+}
+
+.legendHw5{
+    font-family: fantasy;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.year {
+    width: 55px;
+}
+
+.month,
+.date {
+    width: 40px;
+}
+
+#pHw5 {
+    margin-top: 2px;
+    margin-bottom: 0px;
+    font-size: 90%;
+    text-align: center;
+}
+
+.tableHw5 {
+    margin: 5px 55px;
+    background-color: white;
+    /* border: 1px solid black; */
+    box-shadow: 3px 3px 10px grey;
+    
+}
+
+#tableHw5 th {
+    width: 50px;
+    height: 30px;
+    font-size: 1.1em;
+    background-color: rgb(172, 3, 3);
+    color: rgb(252, 253, 232);
+}
+
+#tableHw5 td {
+    height: 24px;
+    text-align: center;
+    font-family: fantasy;
+    
+}
+
+.today {
+    background-color: coral;
+    color: white;
+    text-shadow: 1.3px 1.3px 0 black;
+    font-size: 1.2em;
+}

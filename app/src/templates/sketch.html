@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Homework</title>
+
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/homeStyle.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/hw1Style.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/hw2Style.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/hw3Style.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/hw4Style.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/hw5Style.css') }}">
+
+    <script src="{{ url_for('static', filename='js/homeScript.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/hw1Script.js') }}" type="text/javascript"></script>
+    <!-- src="{{ url_for('static', filename='js/hw2Script.js') }}" -->
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        let correctImg = "<img src='{{ url_for('static', filename='Images/O.png') }}' width=15px>";
+        let incorrectImg = "<img src='{{ url_for('static', filename='Images/X.png') }}' width=15px>";
+
+        function checkName() {//姓名檢查
+            let nameObj = document.getElementById("name");
+            let nameObjVal = nameObj.value;
+
+            let sp = document.getElementById("nameReturn");
+            let nameLen = nameObjVal.length;
+            let flag = true;
+
+            if (nameObjVal == "") {//判斷是否空白         
+                sp.innerHTML = incorrectImg + " 姓名不能為空白";
+            } else if (nameLen < 2) {//判斷字數
+                sp.innerHTML = incorrectImg + " 姓名字數錯誤";
+            } else {//判斷是否全為中文
+                for (let i = 0; i < nameObjVal.length; i++) {
+                    let code = nameObjVal.charCodeAt(i);
+                    if (code < 0x4e00 || code > 0x9fff) {
+                        flag = false;
+                        sp.innerHTML = incorrectImg + " 姓名必須全部為中文";
+                        break;
+                    }
+                }
+                if (flag) {
+                    sp.innerHTML = correctImg + "<span class='correctImg'> 正確</span>";
+                }
+            }
+        }
+
+        function checkPwd() {//密碼檢查
+            let pwdObj = document.getElementById("idPwd");
+            let pwdObjVal = pwdObj.value;
+
+            let sp = document.getElementById("pwdReturn");
+            let pwdLen = pwdObjVal.length;
+            let flag1 = false, flag2 = false, flag3 = false;
+
+            if (pwdObjVal == "") {//判斷是否空白
+                sp.innerHTML = incorrectImg + " 密碼不能為空白";
+            } else if (pwdLen < 6) {//判斷字數
+                sp.innerHTML = incorrectImg + " 密碼不能少於 6 個字";
+            } else {//判斷格式
+                re1 = /^[A-Z]$/;
+                re2 = /^[\d]$/;
+                re3 = /^[!@#$%^&*]$/;
+                for (let i = 0; i < pwdLen; i++) {
+                    let ch = pwdObjVal.toUpperCase().charAt(i);
+                    if (re1.test(ch)) {
+                        flag1 = true;
+                    } else if (re2.test(ch)) {
+                        flag2 = true;
+                    } else if (re3.test(ch)) {
+                        flag3 = true;
+                    }
+                    if (flag1 && flag2 && flag3) break;
+                }
+
+                if (flag1 && flag2 && flag3) {
+                    sp.innerHTML = correctImg + "<span class='correctImg'> 正確</span>";
+                } else {
+                    sp.innerHTML = incorrectImg + " 密碼格式錯誤";
+                }
+            }
+        }
+
+        function checkDate() {//日期檢查
+            let dateObj = document.getElementById("date");
+            let dateObjVal = dateObj.value;
+            let dateObjValLen = dateObjVal.length;
+            let sp = document.getElementById("dateReturn");
+
+            re = /^[0-9]+\/[0-9]+\/[0-9]+$/;//日期格式條件:數字/數字/數字
+
+            if (dateObjValLen == "") {//判斷是否空白
+                sp.innerHTML = incorrectImg + " 日期不能為空白";
+            } else if (!re.test(dateObjVal)) {//格式判斷
+                sp.innerHTML = incorrectImg + " 日期格式錯誤";
+            } else {
+                let d = new Date(dateObjVal);
+
+                let year = d.getFullYear();
+                let month = d.getMonth() + 1;
+                let day = d.getDate();
+
+                let stYear = 0;
+                let indexMon = dateObjVal.indexOf("/") + 1;
+                let indexDay = dateObjVal.lastIndexOf("/") + 1;
+
+                let yearLen = dateObjVal.substring(stYear, indexMon - 1).length;
+                let yearInput = parseInt(dateObjVal.substring(stYear, indexMon - 1));
+                let monthInput = parseInt(dateObjVal.substring(indexMon, indexDay - 1));
+                let dayInput = parseInt(dateObjVal.substr(indexDay));
+
+                re = /^[1-9]{1}[0-9]{3}$/;
+
+                if (!re.test(dateObjVal.substring(stYear, indexMon - 1))) {//判斷年份是否為四位數
+                    sp.innerHTML = "<img src='{{ url_for('static', filename='Images/X.png') }}' width=15px>"
+                    sp.innerHTML += " 年分錯誤 (必須為四位數 )";
+                } else if (d == "Invalid Date") {
+                    sp.innerHTML = incorrectImg + " 無此日期";
+                } else {
+                    if (year == yearInput && month == monthInput && day == dayInput) {//確認日期與輸入日期一致(確認日期沒有自動進位)                        
+                        sp.innerHTML = correctImg + "<span class='correctImg'> 正確</span>";
+                    } else {
+                        sp.innerHTML = incorrectImg + " 無此日期";
+                    }
+                }
+            }
+        }
+        document.getElementById("name").onblur = checkName;
+        document.getElementById("idPwd").onblur = checkPwd;
+        document.getElementById("date").onblur = checkDate;
+    });</script>
+    <!-- src="{{ url_for('static', filename='js/hw3Script.js') }}" -->
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        let sp = document.getElementById("idsp");
+        let sp2 = document.getElementById("idsp2");
+        sp2.addEventListener("click",reset);
+        
+        let imgs = document.getElementsByName("img");
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].addEventListener("click", click);
+            imgs[i].addEventListener("mouseover", mouseover);
+            imgs[i].addEventListener("mouseout", mouseout);
+        }
+        
+        let starOn = "{{ url_for('static', filename='images/chngstar.gif') }}";
+        let starOff = "{{ url_for('static', filename='images/star.gif') }}";
+        let flag = true;
+    
+        function mouseover() {
+            if (flag) {
+                let n = parseInt(this.id.charAt(5));
+                for (let i = 1; i <= n; i++) {
+                    document.getElementById(`idimg${i}`).src = starOn;
+                }
+                sp.innerHTML = `評分中...${n}分`;
+            }
+        }
+        
+        function mouseout() {
+            if (flag) {
+                let n = parseInt(this.id.charAt(5));
+                for (let i = 1; i <= n; i++) {
+                    document.getElementById(`idimg${i}`).src = starOff;
+                }
+                sp.innerHTML = "請打分數";
+            }
+        }
+        
+        function click() {
+            if (flag) {
+                let n = parseInt(this.id.charAt(5));
+                for (let i = 1; i <= n; i++) {
+                    // $(`idimg${i}`).src = starOn
+                    document.getElementById(`idimg${i}`).src = starOn;
+                }
+                sp.innerHTML = `<span style="color:red;font-weight:bold">&nbsp&nbsp${n}顆星！</span>`;
+                sp2.innerHTML = "<button id='idbut'>清除重填</button>";
+            }
+            flag = false;
+        }
+        
+        function reset() {
+            for (let i = 0; i < imgs.length; i++) {
+                document.getElementById(`idimg${i + 1}`).src = starOff;
+            }
+            sp.innerHTML = "請打分數";
+            sp2.innerHTML = "";
+            flag = true;
+        }
+    });
+    
+    </script>
+    <!-- src="{{ url_for('static', filename='js/hw4Script.js') }}" -->
+    <script type="text/javascript">document.addEventListener("DOMContentLoaded", function () {
+
+        let ad1Href = "http://tw.boss.info/products/gt-1/";
+        let ad2Href = "http://tw.boss.info/products/gt-001/";
+        let ad3Href = "http://tw.boss.info/products/gt-100/";
+        let ad4Href = "http://tw.boss.info/products/me-80/";
+        let adsHref = [ad1Href, ad2Href, ad3Href, ad4Href];
+    
+        let ad1Img = "{{ url_for('static', filename='images/ad1_gt-1.jpg') }}";
+        let ad2Img = "{{ url_for('static', filename='images/ad2_gt-001.jpg') }}";
+        let ad3Img = "{{ url_for('static', filename='images/ad3_gt-100.jpg') }}";
+        let ad4Img = "{{ url_for('static', filename='images/ad4_me-80.jpg') }}";
+        let adsImg = [ad1Img, ad2Img, ad3Img, ad4Img];
+    
+        let ad1Title = "BOSS GT-1";
+        let ad2Title = "BOSS GT-001";
+        let ad3Title = "BOSS GT-100";
+        let ad4Title = "BOSS ME-80";
+        let adsTitle = [ad1Title, ad2Title, ad3Title, ad4Title];
+    
+        let playBut = "{{ url_for('static', filename='images/play.png') }}";
+        let pauseBut = "{{ url_for('static', filename='images/pause.png') }}";
+    
+        let imgEle = document.getElementById("idImg");
+        let aEle = document.getElementById("idA");
+        let sps = document.getElementsByClassName("num");
+    
+        for (let i = 0; i < sps.length; i++) {
+            document.getElementById(`sp${i + 1}Hw4`).addEventListener("click", clickSpNumber);
+        }
+    
+        document.getElementById("left").addEventListener("click", left);
+        document.getElementById("right").addEventListener("click", right);
+        let playEle = document.getElementById("play");
+        playEle.addEventListener("click", play);
+    
+        let adn = 1;
+        // set play or not
+        let flag = true;
+    
+        final();
+    
+        function final() {
+            imgEle.src = adsImg[adn - 1];
+            imgEle.title = adsTitle[adn -1];
+            aEle.href = adsHref[adn - 1];
+            for (let i = 0; i < sps.length; i++) {
+                if (adn == i + 1) {
+                    sps[i].setAttribute("class", "num red");
+                } else {
+                    sps[i].setAttribute("class", "num black");
+                }
+            }
+            if (flag) {
+                // 三秒後執行 change
+                timeoutID = setTimeout(change, 3000);
+            }
+    
+        }
+    
+        function change() {
+            if (flag) {
+                clearTimeout(timeoutID);
+                adn++;
+                if (adn > adsHref.length) {
+                    adn = 1;
+                }
+                final();
+            }
+        }
+    
+        function clickSpNumber() {
+            clearTimeout(timeoutID);
+            adn = this.id.charAt(2);
+            flag = false;
+            playEle.src = playBut;
+            final();
+        }
+    
+        function left() {
+            clearTimeout(timeoutID);
+            if (adn == 1) {
+                adn = adsHref.length;
+            } else {
+                adn--;
+            }
+            flag = false;
+            playEle.src = playBut;
+            final();
+        }
+    
+        function right() {
+            clearTimeout(timeoutID);
+            if (adn == adsHref.length) {
+                adn = 1;
+            } else {
+                adn++;
+            }
+            flag = false;
+            playEle.src = playBut;
+            final();
+        }
+    
+        function play() {
+            if (flag) {
+                flag = false;
+                playEle.src = playBut;
+            } else {
+                flag = true;
+                playEle.src = pauseBut;
+            }
+            final();
+        }
+    });</script>
+    <script src="{{ url_for('static', filename='js/hw5Script.js') }}" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <div class="div">
+        <h1 class="h1"><span id="but0" name="butHw">JavaScript Homework</span></h1>
+
+        <p class="p">
+            <span id="but1" name="butHw" class="spanHw">Hw1</span>
+            <span id="but2" name="butHw" class="spanHw">Hw2</span>
+            <span id="but3" name="butHw" class="spanHw">Hw3</span>
+            <span id="but4" name="butHw" class="spanHw">Hw4</span>
+            <span id="but5" name="butHw" class="spanHw">Hw5</span>
+        </p>
+
+        <div id="hw0" name="divHw">
+            <img class="homeImg" src="{{ url_for('static', filename='images/JS.png') }}">
+        </div>
+
+        <div id="hw1" name="divHw" style="display: none;">
+            <div>
+                <table id="tableHw1" class="tableHw1"></table>
+            </div>
+        </div>
+
+        <div id="hw2" name="divHw" style="display: none;">
+            <form>
+                <fieldset class="fieldsetHw2">
+                    <legend class="legendHw2">Form Check</legend>
+                    <div class="st1">
+                        <label for="name">姓名 :</label>
+                        <input type="text" id="name" name="name" size="15" value="" placeholder="請輸入姓名"
+                            autocomplete="off">
+                        <span id="nameReturn" class="incorrectImg"></span><br>
+                        <span class="sp1">( 1.不可空白 2.至少兩個字以上 3.必須全部為中文字 )</span>
+                    </div>
+                    <div class="st1">
+                        <label for="idPwd">密碼 :</label>
+                        <input type="password" id="idPwd" name="pwd" size="15" placeholder="請輸入密碼">
+                        <span id="pwdReturn" class="incorrectImg"></span><br>
+                        <span class="sp1">( 1.不可空白 2.至少 6 個字且必須包含英數字、特殊字元[!@#$%^&*] )</span>
+                    </div>
+                    <div class="st1">
+                        <label for="date">日期 :</label>
+                        <input type="text" id="date" name="date" size="15" value="" placeholder="ex:2020/01/10"
+                            autocomplete="off">
+                        <span id="dateReturn" class="incorrectImg"></span><br>
+                        <span class="sp1">格式:西元年/月/日 (yyyy/mm/dd)</span>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div id="hw3" name="divHw" style="display: none;">
+            <fieldset class='centerDiv'>
+                <legend class="legendHw3">Score</legend>
+                <img id="idimg1" name="img" class="imgHw3" src="{{ url_for('static', filename='images/star.gif') }}" />
+                <img id="idimg2" name="img" class="imgHw3" src="{{ url_for('static', filename='images/star.gif') }}" />
+                <img id="idimg3" name="img" class="imgHw3" src="{{ url_for('static', filename='images/star.gif') }}" />
+                <img id="idimg4" name="img" class="imgHw3" src="{{ url_for('static', filename='images/star.gif') }}" />
+                <img id="idimg5" name="img" class="imgHw3" src="{{ url_for('static', filename='images/star.gif') }}" />
+                <span id="idsp" class='sp1Hw3'>請打分數</span>
+                <span id="idsp2" class='sp2Hw3'></span>
+            </fieldset>
+        </div>
+
+        <div id="hw4" name="divHw" style="display: none;">
+            <form>
+                <fieldset class="fieldsetHw4">
+                    <legend class="legendHw4">Ads Carousel</legend>
+                    <a id="idA" href="" class='a1'><img id="idImg" src="{{ url_for('static', filename='') }}"></a>
+                    <div class="numbers">
+                        <span id="sp1Hw4" href="" class="num">1</span>
+                        <span id="sp2Hw4" href="" class="num">2</span>
+                        <span id="sp3Hw4" href="" class="num">3</span>
+                        <span id="sp4Hw4" href="" class="num">4</span><br>
+
+                        <img id="left" class="ch" src="{{ url_for('static', filename='images/left.png') }}">
+                        <img id="play" class="play" src="{{ url_for('static', filename='images/pause.png') }}">
+                        <img id="right" class="ch" src="{{ url_for('static', filename='images/right.png') }}">
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div id="hw5" name="divHw" style="display: none;">
+            <fieldset class="div1Hw5">
+                <legend class="legendHw5">Calendar</legend>                
+                <div class="div2Hw5">
+                    <select id="yearHw5" class="year">
+                        <option value="0" selected>----</option>
+                    </select> 年
+                    <select id="monthHw5" class="month">
+                        <option value="0" selected>--</option>
+                    </select> 月
+                    <select id="dateHw5" class="date">
+                        <option value="0" selected>--</option>
+                    </select> 日
+                </div>
+                <p id="pHw5">請選擇日期</p>
+                <table id="tableHw5" class="tableHw5"></table>
+            </fieldset>
+        </div>
+    </div>
+
+</body>
+
+</html>
