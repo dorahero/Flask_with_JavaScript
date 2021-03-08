@@ -19,8 +19,8 @@
     <!-- src="{{ url_for('static', filename='js/hw2Script.js') }}" -->
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
-        let correctImg = "<img src='{{ url_for('static', filename='Images/O.png') }}' width=15px>";
-        let incorrectImg = "<img src='{{ url_for('static', filename='Images/X.png') }}' width=15px>";
+        let correctImg = "<img src='{{ url_for('static', filename='images/O.png') }}' width=15px>";
+        let incorrectImg = "<img src='{{ url_for('static', filename='images/X.png') }}' width=15px>";
 
         function checkName() {//姓名檢查
             let nameObj = document.getElementById("name");
@@ -116,7 +116,7 @@
                 re = /^[1-9]{1}[0-9]{3}$/;
 
                 if (!re.test(dateObjVal.substring(stYear, indexMon - 1))) {//判斷年份是否為四位數
-                    sp.innerHTML = "<img src='{{ url_for('static', filename='Images/X.png') }}' width=15px>"
+                    sp.innerHTML = "<img src='{{ url_for('static', filename='images/X.png') }}' width=15px>"
                     sp.innerHTML += " 年分錯誤 (必須為四位數 )";
                 } else if (d == "Invalid Date") {
                     sp.innerHTML = incorrectImg + " 無此日期";
